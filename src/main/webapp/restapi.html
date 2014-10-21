@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="main">
+<head>
+<meta charset="UTF-8">
+<title>Client BPMS</title>
+
+<link href="resources/css/style.css" rel="stylesheet">
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body ng-controller="MainControllerRestAPI">
+<!-- 
+<h2>Organization unit</h2>
+<ul>
+	<li ng-repeat="ou in organizationUnits">
+		{{ou.name}}
+	</li>
+</ul>
+ -->
+<h1>SISREI</h1>
+
+<button class="btn btn-default" ng-click="startProcess()">Start Process</button>
+<br/>
+<br/>
+<button class="btn btn-default" ng-click="listTasks()">List Tasks</button>
+Show completed tasks <input type="checkbox" ng-model="checkbox" />
+<br/>
+<br/>   
+
+ 
+
+<div class="bs-example">
+<table class="table table-striped table-condensed" border="1">
+	<thead>
+		<tr>
+			<td>Id</td>
+			<td>Name</td>
+			<td>Status</td>
+			<td>ProcessInstanceId</td>
+			<td>Action</td>
+			<td>Action</td>
+			<td>Action</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="task in tasks.list">
+			<td ng-show="checkShow(task)">{{task.id}}</td>
+			<td ng-show="checkShow(task)">{{task.name}}</td>
+			<td ng-show="checkShow(task)">{{task.status}}</td>
+			<td ng-show="checkShow(task)">{{task.processId}}</td>
+			<td ng-show="checkShow(task)"><button class="btn btn-default" ng-disabled="task.status != 'Ready' && task.status != 'Reserved'" ng-click="startTask(task.id)">start</button></td>
+			<td ng-show="checkShow(task)"><button class="btn btn-default" ng-disabled="task.status != 'InProgress'" ng-click="completeTask(task)">Complete Task</button></td>
+			<td ng-show="checkShow(task)"><button class="btn btn-default" ng-click="abortProcess(task.processInstanceId)">Abort Process</button></td>
+		</tr>
+	</tbody>
+</table>
+  </div>
+
+
+<script type="text/javascript" src="resources/js/angular.min.js"></script>
+<script type="text/javascript" src="resources/js/angular-resource.min.js"></script>
+<script type="text/javascript" src="resources/js/main.js"></script>
+<script type="text/javascript" src="resources/js/ControllerRestAPI.js"></script>
+</body>
+</html>

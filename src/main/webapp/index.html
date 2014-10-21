@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html ng-app="main">
+<head>
+<meta charset="UTF-8">
+<title>Client BPMS</title>
+
+<link href="resources/css/style.css" rel="stylesheet">
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+<script type="text/javascript" src="resources/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
+</head>
+<body ng-controller="MainController">
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Connection Info</h4>
+				</div>
+				<div class="modal-body">
+
+					<form role="form">
+						<div class="form-group">
+							<label for="inputServer">Server</label>
+							<input ng-model="server" type="text" class="form-control" id="inputServer" placeholder="Server Address and Port">
+						</div>
+						<div class="form-group">
+							<label for="inputUser">Username</label>
+							<input ng-model="username" type="text" class="form-control" id="inputUser" placeholder="Username">
+						</div>
+						<div class="form-group">
+							<label for="inputPass">Password</label>
+							<input ng-model="password" type="password" class="form-control" id="inputPass" placeholder="Password">
+						</div>
+						<div class="form-group">
+							<label for="inputProcessId">ProcessId</label>
+							<input ng-model="processId" type="text" class="form-control" id="inputProcessId" placeholder="Process ID">
+						</div>
+						<div class="form-group">
+							<label for="inputDeploymentId">DeploymentId</label>
+							<input ng-model="deploymentId" type="text" class="form-control" id="inputDeploymentId" placeholder="Deployment ID">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" ng-disabled="username == '' || password == '' || deploymentId == '' || processId == '' || server == ''" ng-click="config()" class="btn btn-primary" data-dismiss="modal">Connect</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	<nav id="navbar-example" class="navbar navbar-default navbar-static" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-example-js-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">BPMS Client</a>
+        </div>
+        <div class="collapse navbar-collapse bs-example-js-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+            
+              <a id="drop1" href="#" role="button" class="dropdown-toggle" data-target="#myModal" data-toggle="modal">Connection Info <span class="caret"></span></a>
+              <!-- 
+               <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Another action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Something else here</a></li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Separated link</a></li>
+              </ul>
+               -->
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li id="fat-menu" class="dropdown">
+              <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">About<span class="caret"></span></a>
+              <!-- 
+              <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Another action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Something else here</a></li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Separated link</a></li>
+              </ul>
+              -->
+            </li>
+          </ul>
+        </div><!-- /.nav-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+	
+	<script type="text/javascript">
+		$('#myModal').modal('toggle');
+	</script>
+	
+	
+	<div ng-show="success" id="successConnect" class="alert alert-success fade in">
+    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+    	<strong>Success!</strong> Your are connected to BPMS.
+	</div>
+	
+	<div ng-show="error" id="errorConnect" class="alert alert-danger fade in">
+    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+    	<strong>Error to connect to BPMS!</strong> Best check your connection info.
+	</div>
+	
+	
+	<button ng-disabled="username == '' || password == '' || deploymentId == '' || processId == ''" class="btn btn-default" ng-click="startProcess()">Start Process</button>
+	<br />
+	<br />
+	<button class="btn btn-default" ng-disabled="username == '' || password == '' || deploymentId == '' || processId == ''" ng-click="listTasks()">List
+		Tasks</button>
+	Show completed tasks
+	<input type="checkbox" ng-model="checkbox" />
+	<br />
+	<br />
+
+
+
+	<div class="bs-example">
+		<table class="table table-striped table-condensed" border="1">
+			<thead>
+				<tr>
+					<td>Id</td>
+					<td>Name</td>
+					<td>Status</td>
+					<td>ProcessInstanceId</td>
+					<td>Action</td>
+					<td>Action</td>
+					<td>Action</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="task in tasks">
+					<td ng-show="checkShow(task)">{{task.id}}</td>
+					<td ng-show="checkShow(task)">{{task.name}}</td>
+					<td ng-show="checkShow(task)">{{task.status}}</td>
+					<td ng-show="checkShow(task)">{{task.processId}}</td>
+					<td ng-show="checkShow(task)">
+						<button class="btn btn-default"
+							ng-disabled="task.status != 'Ready' && task.status != 'Reserved'"
+							ng-click="startTask(task.id)">start</button>
+					</td>
+					<td ng-show="checkShow(task)">
+						<button class="btn btn-default" ng-disabled="task.status != 'InProgress'" ng-click="completeTask(task)">Complete Task</button>
+						<button class="btn btn-default"	ng-show="task.name == 'Avalia Solicitacao de Consulta Previa'" ng-disabled="task.status != 'InProgress'" ng-click="showFormFunction(true, task.id)">Form</button>
+					</td>
+					<td ng-show="checkShow(task)"><button class="btn btn-default" ng-click="abortProcess(task.processId)">Abort Process</button></td>
+				</tr>
+			</tbody>
+		</table>
+
+
+	</div>
+
+	<div ng-model="showForm" ng-show="showForm">
+
+		<h3>
+			<small>Avalia Solicitacao de Consulta Previa</small>
+		</h3>
+
+		<form novalidate role="form" class="simple-form">
+			<div class="checkbox">
+				<label> <input ng-model="aprovado" type="checkbox">
+					Aprovado
+				</label>
+			</div>
+			<button type="submit" ng-click="sendForm(aprovado)"
+				class="btn btn-default">Submit</button>
+		</form>
+	</div>
+
+	<script type="text/javascript" src="resources/js/angular.min.js"></script>
+	<script type="text/javascript" src="resources/js/angular-resource.min.js"></script>
+	<script type="text/javascript" src="resources/js/main.js"></script>
+	<script type="text/javascript" src="resources/js/Controller.js"></script>
+
+</body>
+</html>
