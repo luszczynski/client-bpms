@@ -133,55 +133,13 @@ app.controller('MainController', function($scope, $http) {
 		
 		if(task.status == 'Completed') {
 			if($scope.checkbox == true) 
-				return true
+				return true;
 			return false;
 		}
 		else
 			return true;
 		
 	};
-	
-	/*$http.get('http://127.0.0.1:8080/business-central/rest/organizationalunits').success(function(data){
-		$scope.organizationUnits = data;
-	}).error(function(msg){
-		$scope.mensagem = "Error!";
-	});
-	*/
-	
-
-	
-//	$scope.completeTask = function(task) {
-//		
-//		var xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' + 
-//			'<command-request>' +
-//		'<deployment-id>br.gov.planejamento:SISREI:1.0</deployment-id>' +
-//		'<process-instance-id>' + task.processInstanceId + '</process-instance-id>' +
-//		'<ver>1.0</ver>' +
-//		'<complete-task>' +
-//			'<task-id>' + task.id + '</task-id>' +
-//			'<user-id>gustavo</user-id>' +
-//				'<data>' +
-//					'<item key="taskOutputIsConsultaPreviaOK">' +
-//						'<value xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:boolean">true</value>' +
-//					'</item>' +
-//				'</data>' +
-//			'</complete-task>' +
-//	'</command-request>';
-//		
-//		$http({
-//            url: 'http://127.0.0.1:8080/business-central/rest/task/execute',
-//            method: "POST",
-//            data: xml,
-//            headers: {'Content-Type': 'application/xml', 'Accept':'application/xml'}
-//        }).success(function (data, status, headers, config) {
-//        	$scope.listTasks();
-//        }).error(function (data, status, headers, config) {
-//                console.log(data);
-//                console.log(headers);
-//        });
-//		
-//		$scope.listTasks();
-//	};
 	
 });
  

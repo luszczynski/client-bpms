@@ -44,7 +44,7 @@ public class JBPMUtil {
 	}
 	
 	public KieSession getKieSession() {
-		return  engine.getKieSession();
+		return engine.getKieSession();
 	}
 
 	public TaskService getTaskService() {

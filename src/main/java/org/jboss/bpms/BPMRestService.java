@@ -196,10 +196,10 @@ public class BPMRestService {
 	}
 	
 	@POST
-	@Path("/config/{server}/{username}/{password}/{deploymentId}")
+	@Path("/config")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response setProcessInfo(@PathParam("server") String server, @PathParam("username") String username, 
-			@PathParam("password") String password, @PathParam("deploymentId") String deploymentId) {
+	public Response setProcessInfo(@QueryParam("server") String server, @QueryParam("username") String username, 
+			@QueryParam("password") String password, @QueryParam("deploymentId") String deploymentId) {
 		
 		jbpmUtil.setUser(username);
 		jbpmUtil.setDeploymentId(deploymentId);
@@ -227,6 +227,7 @@ public class BPMRestService {
 	public ProcessInstance startProcess(@PathParam("processId") String processId) throws Exception {
 		KieSession ksession = jbpmUtil.getKieSession();
 		ProcessInstance process = ksession.startProcess(processId);
+		
 		return process;
 	}
 	

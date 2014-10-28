@@ -2,8 +2,8 @@ app.controller('MainControllerRestAPI', function($scope, $http) {
 	
 	var urlBPMSRest = "http://127.0.0.1:8080/business-central/rest";
 	var appContext = "client-bpms";
-	var processId = "SISREI.RequerimentoImoveis";
-	var deploymentId = "br.gov.planejamento:SISREI:1.0";
+	var processId = "my process id";
+	var deploymentId = "my deploymend id";
 	
 	$scope.organizationUnits = [];
 	
@@ -141,7 +141,7 @@ app.controller('MainControllerRestAPI', function($scope, $http) {
 		
 		var xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' + 
 		'<command-request>' +
-	'<deployment-id>br.gov.planejamento:SISREI:1.0</deployment-id>' +
+	'<deployment-id>' + deploymentId + '</deployment-id>' +
 	'<process-instance-id>' + task.processInstanceId + '</process-instance-id>' +
 	'<ver>1.0</ver>' +
 	'<complete-task>' +
